@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.videoshare.sso.dao.UserDao">
+	<insert id="Register" parameterType="User">
+		insert
+		user(username,password,realname)
+		values(#{username},#{password},#{realname});
+	</insert>
+
+	<select id="Login" parameterType="String" resultType="int">
+		select
+		count(username)
+		from user
+		where username=#{UserName} AND password = #{PassWord}
+	</select>
+
+	<update id="UpdateToken" parameterType="String">
+		update user
+		set token = #{Token}
+		where username = #{UserName}
+	</update>
+
+
+	<select id="LoginByToken" resultType="String" parameterType="String">
+		select username
+		from user
+		where token = #{Token}
+	</select>
+	
+	
+	<select id="QueryUserNameByUid" resultType="String" parameterType="int">
+		select username
+		from user
+		where id = #{uid}
+	</select>
+	
+
+	<update id="Logout" parameterType="String">
+		update user
+		set token = ''
+		where token = #{Token}
+	</update>
+
+	<select id="QueryByUserName" resultType="int" parameterType="String">
+		select count(username)
+		from user
+		where username=#{UserName}
+	</select>
+
+	<select id="QueryUserNickname" resultType="String"
+		parameterType="String">
+		select nickname
+		from user_info_detal
+		where
+		username=#{username}
+	</select>
+
+
+	<insert id="InsertRelation" parameterType="String">
+		INSERT INTO
+		user_relation (username,contacts,rev_contacts)
+		VALUES (#{UserName},'','')
+
+	</insert>
+
+	<insert id="InsertDetalInRegister" parameterType="String">
+		INSERT INTO
+		user_info_detal (username)
+		VALUES (#{username})
+	</insert>
+
+
+	<select id="QueryUidByUserName" resultType="int"
+		parameterType="String">
+		select id
+		from user
+		where
+		username=#{username}
+	</select>
+	
+
+
+
+
+
+</mapper>

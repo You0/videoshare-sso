@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.videoshare.sso.dao.UserInfoChangeDao">
+	
+	
+	<update id="UpdateNickname" parameterType="String">
+		UPDATE user_info_detal
+		SET nickname=#{nickname}
+		WHERE username = #{username}
+	</update>
+	
+	<update id="UpdateHeadUrl" parameterType="String">
+		UPDATE user_info_detal
+		SET headurl=#{headurl}
+		WHERE username = #{username}
+	</update>
+	
+	<update id="UpdateBackground" parameterType="String">
+		UPDATE user_info_detal
+		SET imageurl=#{imageurl}
+		WHERE username = #{username}
+	</update>
+	
+	
+	<update id="UpdatePassword" parameterType="String">
+		UPDATE user
+		SET password=#{password}
+		WHERE username = #{username}
+	</update>
+	
+	
+	<update id="UpdateSign" parameterType="String">
+		UPDATE user_info_detal
+		SET sign=#{sign}
+		WHERE username = #{username}
+	</update>
+
+
+	<update id="UpdateEMail" parameterType="String">
+		UPDATE user_info_detal
+		SET e_mail=#{e_mail}
+		WHERE username = #{username}
+	</update>
+
+	<update id="UpdateAll" parameterType="User" >
+		UPDATE user 
+		SET e_mail=#{e_mail}, nickname=#{nickname},
+			imageurl=#{imageurl},sign=#{sign},headurl=#{headurl}
+		WHERE username = #{username}
+	</update>
+	
+	<select id="SelectUserDetal" resultType="UserDetal" parameterType="String">
+		SELECT user.username,user_info_detal.e_mail,nickname,user_info_detal.sign,sex,grades,major,school,headurl,imageurl,user.id
+		FROM user_info_detal,user
+		WHERE user_info_detal.username = user.username AND
+		user.username = #{username}
+	</select>
+	
+	
+	<select id="SelectUserDetalById" resultType="UserDetal" parameterType="String">
+		SELECT user.username,user_info_detal.e_mail,nickname,user_info_detal.sign,sex,grades,major,school,headurl,imageurl,user.id
+		FROM user_info_detal,user
+		WHERE user_info_detal.username = user.username AND
+		user.id = #{uid}
+	</select>
+	
+	
+	<select id="SelectUserDetalByNickname" resultType="UserDetal" parameterType="String">
+		SELECT user.username,user_info_detal.e_mail,nickname,user_info_detal.sign,sex,grades,major,school,headurl,imageurl,user.id
+		FROM user_info_detal,user
+		WHERE user_info_detal.username = user.username AND
+		user_info_detal.nickname = #{nickname}
+	</select>
+	
+	
+	<select id="SelectNickName" resultType="int" parameterType="String">
+		SELECT COUNT(nickname)
+		FROM user_info_detal
+		WHERE nickname = {nickname}
+	</select>
+	
+	
+	
+	
+	
+	<update id="UpdateDetal" parameterType="UserDetal" >
+		UPDATE user_info_detal 
+		SET e_mail=#{e_mail},
+			nickname=#{nickname},
+			sign=#{sign},
+			sex=#{sex},
+			grades=#{grades},
+			major=#{major},
+			school=#{school}
+		WHERE (username=#{username})
+	</update>
+	
+	
+	
+	
+	
+	
+</mapper>

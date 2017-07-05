@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.videoshare.sso.dao.UserRelationDao">
+	<select id="getRelationLevelByOrder" resultType="SimpleUser"
+		parameterType="String">
+		select user.username,realname,nickname,headurl,user.id
+		from
+		user_info_detal,user
+		where user_info_detal.username = user.username and
+		user.username like #{usernme};
+	</select>
+
+	<select id="getContacts" resultType="SimpleUser" parameterType="String">
+		select contacts
+		from user_relation
+		where username = #{usernme};
+	</select>
+
+	<select id="getRevContacts" resultType="SimpleUser"
+		parameterType="String">
+		select rev_contacts
+		from user_relation
+		where username = #{usernme};
+	</select>
+
+	<update id="insertContacts" parameterType="String">
+		UPDATE user_relation
+		SET contacts=CONCAT(contacts,#{contact})
+		WHERE username = #{username}
+	</update>
+
+	<update id="insertRevContacts" parameterType="String">
+		UPDATE
+		user_relation
+		SET rev_contacts=CONCAT(rev_contacts,#{revcontact})
+		WHERE
+		username = #{username}
+	</update>
+
+
+	<select id="queryContacts" resultType="String" parameterType="String">
+		select contacts
+		from user_relation
+		where username = #{username}
+	</select>
+
+
+	<select id="queryRevContacts" resultType="String" parameterType="String">
+		select rev_contacts
+		from user_relation
+		where username = #{username}
+	</select>
+	
+	
+	<select id="queryUsernameBynickname" resultType="String" parameterType="String">
+		select username
+		from user_info_detal
+		where nickname = #{nickname}
+	</select>
+	
+	
+	
+
+
+	<select id="queryLove" resultType="int" parameterType="String">
+		select
+		experience
+		from user
+		where username = #{username}
+	</select>
+
+
+
+	<update id="IncLove" parameterType="int">
+		UPDATE user
+		SET experience =
+		experience+1
+		WHERE id = #{username}
+	</update>
+
+	<update id="DecLove" parameterType="int">
+		UPDATE user
+		SET experience =
+		experience-1
+		WHERE id = #{username}
+	</update>
+	
+	<update id="ChangeContacts" parameterType="String">
+		UPDATE user_relation
+		SET contacts = #{text}
+		WHERE username = #{username}
+	</update>
+	
+	
+	<update id="ChangeRevContacts" parameterType="String">
+		UPDATE user_relation
+		SET rev_contacts = #{text}
+		WHERE username = #{username}
+	</update>
+	
+
+
+
+</mapper>

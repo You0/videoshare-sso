@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- Mybatis 的全局配置文件 -->
+
+	<!-- 引入外部资源配置文件 <properties resource="jdbc.properties" /> -->
+
+	<settings>
+		<!-- 开启驼峰自动映射 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<plugins>
+
+		<!-- 分页插件 -->
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<property name="dialect" value="mysql" />
+			<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+			<property name="rowBoundsWithCount" value="true" />
+		</plugin>
+
+		<!-- 通用Mapper -->
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			<!-- 主键自增回写方法 -->
+			<property name="IDENITIY" value="MYSQL" />
+			<!-- 通用Mapper接口，多个通用接口用，隔开 -->
+			<property name="mappers" value="com.github.abel533.mapper.Mapper" />
+		</plugin>
+	</plugins>
+
+	<!-- 在applicationContext-mybatis.xml 中配置了 <typeAliases> <package name="cn.zs.userinfor.pojo"/> 
+		</typeAliases> -->
+
+	<!-- 配置环境，制定数据库连接信息 <environments default="development"> <environment id="development"> 
+		<transactionManager type="JDBC" /> <dataSource type="POOLED"> <property name="driver" 
+		value="${jdbc.driver}" /> <property name="url" value="${jdbc.url}" /> <property 
+		name="username" value="${jdbc.username}" /> <property name="password" value="${jdbc.password}" 
+		/> </dataSource> </environment> </environments> -->
+
+	<!-- 在applicationContext-mybatis.xml 中配置了 <mappers> <mapper resource="UserMapper.xml" 
+		/> </mappers> -->
+</configuration>
